@@ -17,7 +17,7 @@
 
 ---
 
-## Дополнительные ресурсы
+### Дополнительные ресурсы
 
 При выполнении задания используйте дополнительные ресурсы:
 - [docker-compose elasticsearch + kibana](11-03/docker-compose.yaml);
@@ -30,15 +30,27 @@
 - [как просматривать логи в kibana](https://www.elastic.co/guide/en/kibana/current/discover.html);
 - [решение ошибки increase vm.max_map_count elasticsearch](https://stackoverflow.com/questions/42889241/how-to-increase-vm-max-map-count).
 
-### Задание 1. Elasticsearch 
+## Задание 1. Elasticsearch 
 
 Установите и запустите Elasticsearch, после чего поменяйте параметр cluster_name на случайный. 
 
 *Приведите скриншот команды 'curl -X GET 'localhost:9200/_cluster/health?pretty', сделанной на сервере с установленным Elasticsearch. Где будет виден нестандартный cluster_name*.
 
+### Установка и запуск Elasticsearch
+```
+sudo apt update && sudo apt install gnupg apt-transport-https
+#Доступ к ресурсам artifacts.elastic.co из РФ заблокирован. Пакет скачал через proxy-addon
+sudo apt install /tmp/elasticsearch-7.17.9-amd64.dep
+sudo systemctl daemon-reload
+sudo systemctl status elasticsearch.service
+sudo systemctl enable elasticsearch.service
+sudo systemctl start elasticsearch.service
+```
+![Скриншот команды](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-1.png "Скриншот команды")
+
 ---
 
-### Задание 2. Kibana
+## Задание 2. Kibana
 
 Установите и запустите Kibana.
 
@@ -46,7 +58,7 @@
 
 ---
 
-### Задание 3. Logstash
+## Задание 3. Logstash
 
 Установите и запустите Logstash и Nginx. С помощью Logstash отправьте access-лог Nginx в Elasticsearch. 
 
@@ -54,17 +66,15 @@
 
 ---
 
-### Задание 4. Filebeat. 
+## Задание 4. Filebeat. 
 
 Установите и запустите Filebeat. Переключите поставку логов Nginx с Logstash на Filebeat. 
 
 *Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
 
+---
 
-## Дополнительные задания (со звёздочкой*)
-Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
-
-### Задание 5*. Доставка данных 
+## Задание 5*. Доставка данных 
 
 Настройте поставку лога в Elasticsearch через Logstash и Filebeat любого другого сервиса , но не Nginx. 
 Для этого лог должен писаться на файловую систему, Logstash должен корректно его распарсить и разложить на поля. 
