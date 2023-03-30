@@ -36,15 +36,21 @@
 
 *Приведите скриншот команды 'curl -X GET 'localhost:9200/_cluster/health?pretty', сделанной на сервере с установленным Elasticsearch. Где будет виден нестандартный cluster_name*.
 
-### Установка и запуск Elasticsearch
+### Установка (локальная) и запуск Elasticsearch
 ```
 sudo apt update && sudo apt install gnupg apt-transport-https
-#Доступ к ресурсам artifacts.elastic.co из РФ заблокирован. Пакет скачал через proxy-addon
-sudo apt install /tmp/elasticsearch-7.17.9-amd64.dep
+#Доступ к ресурсам artifacts.elastic.co из РФ заблокирован.
+#Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-amd64.deb
+sudo apt install /tmp/elasticsearch-7.6.2-amd64.dep
 sudo systemctl daemon-reload
 sudo systemctl status elasticsearch.service
 sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
+
+sudo nano /etc/elasticsearch/elasticsearch.yml # cluster.name: clusterBaranovskiiSN и network.host: localhost
+sudo systemctl start elasticsearch.service
+curl -X GET 'localhost:9200/_cluster/health?pretty'
+curl -X GET 'http://localhost:9200'
 ```
 ![Скриншот команды](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-1.png "Скриншот команды")
 
@@ -55,6 +61,19 @@ sudo systemctl start elasticsearch.service
 Установите и запустите Kibana.
 
 *Приведите скриншот интерфейса Kibana на странице http://<ip вашего сервера>:5601/app/dev_tools#/console, где будет выполнен запрос GET /_cluster/health?pretty*.
+
+### Установка и запуск в docker-е Kibana и Elasticsearch
+```
+sudo apt install -y docker docker-doc docker-compose
+sudo usermod -aG docker $USER
+sudo chmod -R 777 /var/run/docker.sock
+docker info
+docker-compose -f docker-compose.yaml up -d
+docker ps
+
+http://localhost:5601/app/dev_tools#/console
+```
+![Скриншот интерфейса Kibana](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-2.png "Скриншот интерфейса Kibana")
 
 ---
 
