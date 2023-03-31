@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - logstash
+
+  logstash:
+    container_name: docker.elastic.co/logstash/logstash
+    image: logstash
+    ports:
+      - 5046:5046
+
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:7.17.9
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - xpack.security.enabled=false
+#      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.17.9
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+      - nginx
+
+volumes:
+  elasticsearch-data:
+    driver: local
+

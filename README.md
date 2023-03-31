@@ -39,7 +39,7 @@
 ### Установка (локальная) и запуск Elasticsearch
 ```
 sudo apt update && sudo apt install gnupg apt-transport-https
-#Доступ к ресурсам artifacts.elastic.co из РФ заблокирован.
+#Доступ к ресурсам elastic.co из РФ заблокирован.
 #Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-amd64.deb
 sudo apt install /tmp/elasticsearch-7.6.2-amd64.dep
 sudo systemctl daemon-reload
@@ -66,10 +66,19 @@ curl -X GET 'http://localhost:9200'
 ```
 sudo apt install -y docker docker-doc docker-compose
 sudo usermod -aG docker $USER
-sudo chmod -R 777 /var/run/docker.sock
+sudo chmod -R 666 /var/run/docker.sock
 docker info
 docker-compose -f docker-compose.yaml up -d
 docker ps
+
+#
+#или ставим локально (скачан https://artifacts.elastic.co/downloads/kibana/kibana-8.7.0-amd64.deb)
+#
+sudo apt install /tmp/kibana-8.7.0-amd64.deb
+sudo systemctl daemon-reload
+sudo systemctl status logstash.service
+sudo systemctl enable logstash.service
+sudo systemctl start logstash.service
 
 http://localhost:5601/app/dev_tools#/console
 ```
@@ -83,6 +92,21 @@ http://localhost:5601/app/dev_tools#/console
 
 *Приведите скриншот интерфейса Kibana, на котором видны логи Nginx.*
 
+```
+sudo apt install nginx
+sudo systemctl status nginx.service
+
+#Доступ к ресурсам elastic.co из РФ заблокирован. В docker в том числе.
+#Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/logstash/logstash-8.7.0-amd64.deb
+sudo apt install /tmp/logstash-8.7.0-amd64.deb
+sudo systemctl daemon-reload
+sudo systemctl status logstash.service
+sudo systemctl enable logstash.service
+sudo systemctl start logstash.service
+
+sudo nano /etc/logstash/conf.d/my_pipelines.conf
+```
+
 ---
 
 ## Задание 4. Filebeat. 
@@ -90,6 +114,16 @@ http://localhost:5601/app/dev_tools#/console
 Установите и запустите Filebeat. Переключите поставку логов Nginx с Logstash на Filebeat. 
 
 *Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
+
+```
+#Доступ к ресурсам elastic.co из РФ заблокирован.
+#Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.17.9-amd64.deb
+sudo apt install /tmp/filebeat-7.17.9-amd64.deb
+sudo systemctl daemon-reload
+sudo systemctl status filebeat.service
+sudo systemctl enable filebeat.service
+sudo systemctl start filebeat.service
+```
 
 ---
 
