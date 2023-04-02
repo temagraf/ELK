@@ -46,10 +46,12 @@ sudo systemctl daemon-reload
 sudo systemctl status elasticsearch.service
 sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
+sudo sysctl vm.swappiness=1 #или выключаем подкачку: sudo swapoff -a
 
 sudo nano /etc/elasticsearch/elasticsearch.yml # cluster.name: clusterBaranovskiiSN и network.host: localhost
 sudo systemctl start elasticsearch.service
 curl -X GET 'localhost:9200/_cluster/health?pretty'
+curl -X GET 'localhost:9200/_cat/master?pretty'
 curl -X GET 'http://localhost:9200'
 ```
 ![Скриншот команды](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-1.png "Скриншот команды")
@@ -72,9 +74,9 @@ docker-compose -f docker-compose.yaml up -d
 docker ps
 
 #
-#или ставим локально (скачан https://artifacts.elastic.co/downloads/kibana/kibana-8.7.0-amd64.deb)
+#или ставим локально (скачан https://artifacts.elastic.co/downloads/kibana/kibana-7.17.9-amd64.deb)
 #
-sudo apt install /tmp/kibana-8.7.0-amd64.deb
+sudo apt install /tmp/kibana-7.17.9-amd64.deb
 sudo systemctl daemon-reload
 sudo systemctl status logstash.service
 sudo systemctl enable logstash.service
@@ -97,8 +99,8 @@ sudo apt install nginx
 sudo systemctl status nginx.service
 
 #Доступ к ресурсам elastic.co из РФ заблокирован. В docker в том числе.
-#Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/logstash/logstash-8.7.0-amd64.deb
-sudo apt install /tmp/logstash-8.7.0-amd64.deb
+#Пакет скачал через web browser (proxy-addon) по адресу: https://artifacts.elastic.co/downloads/logstash/logstash-7.17.9-amd64.deb
+sudo apt install /tmp/logstash-7.17.9-amd64.deb
 sudo systemctl daemon-reload
 sudo systemctl status logstash.service
 sudo systemctl enable logstash.service
