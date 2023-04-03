@@ -45,7 +45,6 @@ sudo apt install /tmp/elasticsearch-7.6.2-amd64.dep
 sudo systemctl daemon-reload
 sudo systemctl status elasticsearch.service
 sudo systemctl enable elasticsearch.service
-sudo systemctl start elasticsearch.service
 sudo sysctl vm.swappiness=1 #или выключаем подкачку: sudo swapoff -a
 
 sudo nano /etc/elasticsearch/elasticsearch.yml # cluster.name: clusterBaranovskiiSN и network.host: localhost
@@ -74,13 +73,15 @@ docker-compose -f docker-compose.yaml up -d
 docker ps
 
 #
-#или ставим локально (скачан https://artifacts.elastic.co/downloads/kibana/kibana-7.17.9-amd64.deb)
+# Или ставим локально (скачан https://artifacts.elastic.co/downloads/kibana/kibana-7.17.9-amd64.deb)
 #
 sudo apt install /tmp/kibana-7.17.9-amd64.deb
 sudo systemctl daemon-reload
 sudo systemctl status logstash.service
 sudo systemctl enable logstash.service
 sudo systemctl start logstash.service
+
+sudo nano /etc/kibana/kibana.yml # server.host: "localhost"  и  server.port: 5601
 
 http://localhost:5601/app/dev_tools#/console
 ```
@@ -106,8 +107,10 @@ sudo systemctl status logstash.service
 sudo systemctl enable logstash.service
 sudo systemctl start logstash.service
 
+sudo chmod -R o+r /var/log/nginx # Для доступа к логам на чтение
 sudo nano /etc/logstash/conf.d/my_pipelines.conf
 ```
+![Скриншот интерфейса Kibana](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-3.png "Скриншот интерфейса Kibana")
 
 ---
 
@@ -124,6 +127,10 @@ sudo apt install /tmp/filebeat-7.17.9-amd64.deb
 sudo systemctl daemon-reload
 sudo systemctl status filebeat.service
 sudo systemctl enable filebeat.service
+
+sudo nano /etc/filebeat/filebeat.yml
+sudo filebeat modules enable system nginx
+
 sudo systemctl start filebeat.service
 ```
 
@@ -135,3 +142,22 @@ sudo systemctl start filebeat.service
 Для этого лог должен писаться на файловую систему, Logstash должен корректно его распарсить и разложить на поля. 
 
 *Приведите скриншот интерфейса Kibana, на котором будет виден этот лог и напишите лог какого приложения отправляется.*
+
+### Настройка поставки лога Logstash ( /var/log/logstash/logstash-deprecation.log )
+
+```
+sudo chmod -R o+r /var/log/logstash # Для доступа к логам на чтение
+sudo filebeat modules enable logstash # Добавляем модуль logstash
+
+sudo nano /etc/logstash/conf.d/my_pipelines.conf 
+sudo nano /etc/filebeat/filebeat.yml 
+
+sudo systemctl restart logstash.service
+sudo systemctl resrart filebeat.service
+
+```
+- **[My_pipelines_filebeat.conf](https://github.com/StanislavBaranovskii/11-3-hw/tree/main/11-03/my_pipelines_filebeat.conf)**
+- **[Filebeat.yml](https://github.com/StanislavBaranovskii/11-3-hw/tree/main/11-03/filebeat.yml)**
+
+
+---
