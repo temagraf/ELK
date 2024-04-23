@@ -1,4 +1,4 @@
-# Домашнее задание к занятию "`11.3. ELK`" - `Барановский Станислав`
+# Домашнее задание к занятию "ELK" - `Яковлев Артем`
 
 ### Инструкция по выполнению домашнего задания
 
@@ -53,7 +53,7 @@ curl -X GET 'localhost:9200/_cluster/health?pretty'
 curl -X GET 'localhost:9200/_cat/master?pretty'
 curl -X GET 'http://localhost:9200'
 ```
-![Скриншот команды](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-1.png "Скриншот команды")
+![Скриншот команды](https://github.com/temagraf/ELK/blob/main/img/11-3-1.png "Скриншот команды")
 
 ---
 
@@ -85,7 +85,7 @@ sudo nano /etc/kibana/kibana.yml # server.host: "localhost"  и  server.port: 56
 
 http://localhost:5601/app/dev_tools#/console
 ```
-![Скриншот интерфейса Kibana](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-2.png "Скриншот интерфейса Kibana")
+![Скриншот интерфейса Kibana](https://github.com/temagraf/ELK/blob/main/img/11-3-2.png "Скриншот интерфейса Kibana")
 
 ---
 
@@ -110,7 +110,7 @@ sudo systemctl start logstash.service
 sudo chmod -R o+r /var/log/nginx # Для доступа к логам на чтение
 sudo nano /etc/logstash/conf.d/my_pipelines.conf
 ```
-![Скриншот интерфейса Kibana](https://github.com/StanislavBaranovskii/11-3-hw/blob/main/img/11-3-3.png "Скриншот интерфейса Kibana")
+![Скриншот интерфейса Kibana](https://github.com/temagraf/ELK/blob/main/img/11-3-3.png "Скриншот интерфейса Kibana")
 
 ---
 
@@ -156,8 +156,8 @@ sudo systemctl restart logstash.service
 sudo systemctl resrart filebeat.service
 
 ```
-- **[My_pipelines_filebeat.conf](https://github.com/StanislavBaranovskii/11-3-hw/tree/main/11-03/my_pipelines_filebeat.conf)**
-- **[Filebeat.yml](https://github.com/StanislavBaranovskii/11-3-hw/tree/main/11-03/filebeat.yml)**
+- **[My_pipelines_filebeat.conf](https://github.com/temagraf/ELK/tree/main/11-03/my_pipelines_filebeat.conf)**
+- **[Filebeat.yml](https://github.com/temagraf/ELK/tree/main/11-03/filebeat.yml)**
 
 
 ---
